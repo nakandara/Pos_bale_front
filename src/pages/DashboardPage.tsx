@@ -29,7 +29,7 @@ const DashboardPage = ({ onNavigate }: DashboardPageProps) => {
     <div className="space-y-6">
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-4 sm:p-6 lg:p-8 text-white">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Welcome to Your Shop Dashboard 👋</h1>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Welcome to Red Rose  Dashboard 👋</h1>
         <p className="text-sm sm:text-base text-blue-100">Here's what's happening with your business today</p>
       </div>
 
