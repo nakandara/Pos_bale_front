@@ -84,7 +84,8 @@ const PurchasesPage = () => {
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
             />
           </div>
 
@@ -93,7 +94,8 @@ const PurchasesPage = () => {
             <select
               value={formData.categoryId}
               onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
               required
               disabled={categoriesStatus === 'loading' || categories.length === 0}
             >
@@ -122,7 +124,8 @@ const PurchasesPage = () => {
               onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
               placeholder="150"
               min="1"
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
               required
             />
           </div>
@@ -136,7 +139,8 @@ const PurchasesPage = () => {
               placeholder="40000"
               min="0"
               step="0.01"
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
               required
             />
           </div>
@@ -152,7 +156,8 @@ const PurchasesPage = () => {
               placeholder="500"
               min="0"
               step="0.01"
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
               required
             />
           </div>
@@ -164,7 +169,8 @@ const PurchasesPage = () => {
               value={formData.supplier}
               onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
               placeholder="ABC Wholesale"
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
             />
           </div>
         </div>

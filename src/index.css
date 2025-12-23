@@ -42,3 +42,47 @@ body {
   background: #555;
 }
 
+/* Mobile Input Fix - Prevent zoom on focus */
+input,
+select,
+textarea {
+  font-size: 16px !important;
+}
+
+/* Prevent zoom on iOS when focusing inputs */
+@supports (-webkit-touch-callout: none) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Ensure inputs are responsive on mobile */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 16px !important;
+  min-height: 44px; /* iOS recommended touch target size */
+}
+
+/* Fix for mobile keyboard pushing content */
+@media screen and (max-width: 768px) {
+  body {
+    position: fixed;
+    width: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  #root {
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
