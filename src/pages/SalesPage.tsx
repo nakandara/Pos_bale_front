@@ -100,7 +100,8 @@ const SalesPage = () => {
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
             />
           </div>
 
@@ -109,7 +110,8 @@ const SalesPage = () => {
             <select
               value={formData.categoryId}
               onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
               required
               disabled={categoriesStatus === 'loading' || categories.length === 0}
             >
@@ -139,7 +141,8 @@ const SalesPage = () => {
               placeholder="3"
               min="1"
               max={selectedCategoryStock}
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
               required
             />
             {formData.categoryId && (
@@ -158,7 +161,8 @@ const SalesPage = () => {
               placeholder="500"
               min="0"
               step="0.01"
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              style={{ fontSize: '16px' }}
               required
             />
           </div>

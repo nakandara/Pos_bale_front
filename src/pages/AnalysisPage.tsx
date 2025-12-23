@@ -79,7 +79,8 @@ const AnalysisPage = () => {
           <select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(Number(e.target.value))}
-            className="rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+            className="rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+            style={{ fontSize: '16px' }}
           >
             {months.map((month, index) => (
               <option key={month} value={index}>
@@ -90,7 +91,8 @@ const AnalysisPage = () => {
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
-            className="rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+            className="rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+            style={{ fontSize: '16px' }}
           >
             {[2024, 2025, 2026].map((year) => (
               <option key={year} value={year}>

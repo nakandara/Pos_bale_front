@@ -43,7 +43,8 @@ const CategoriesPage = () => {
           value={newCategoryName}
           onChange={(e) => setNewCategoryName(e.target.value)}
           placeholder="Enter category name..."
-          className="flex-1 rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-sm sm:text-base focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="flex-1 rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          style={{ fontSize: '16px' }}
         />
         <button
           type="submit"
