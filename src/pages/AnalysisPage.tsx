@@ -70,8 +70,8 @@ const AnalysisPage = () => {
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Monthly-Analysis</h1>
-          <p className="text-xs sm:text-sm text-gray-600 mt-1">Income, Outcome, and Profit analysis</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Monthly-Analysis</h1>
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Income, Outcome, and Profit analysis</p>
         </div>
 
         {/* Month/Year Selector */}
@@ -79,7 +79,7 @@ const AnalysisPage = () => {
           <select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(Number(e.target.value))}
-            className="rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
             style={{ fontSize: '16px' }}
           >
             {months.map((month, index) => (
@@ -91,7 +91,7 @@ const AnalysisPage = () => {
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
-            className="rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+            className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
             style={{ fontSize: '16px' }}
           >
             {[2024, 2025, 2026].map((year) => (
@@ -105,7 +105,7 @@ const AnalysisPage = () => {
 
       {/* Main Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-        <div className="rounded-lg bg-green-50 p-4 sm:p-5 lg:p-6 border border-green-200">
+        <div className="rounded-lg bg-green-50 dark:bg-green-900/20 p-4 sm:p-5 lg:p-6 border border-green-200">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs sm:text-sm font-medium text-green-800">Income (Sales)</p>
             <span className="text-xl sm:text-2xl">💰</span>
@@ -114,7 +114,7 @@ const AnalysisPage = () => {
           <p className="text-xs sm:text-sm text-green-700 mt-2">{monthSales.length} sales transactions</p>
         </div>
 
-        <div className="rounded-lg bg-red-50 p-4 sm:p-5 lg:p-6 border border-red-200">
+        <div className="rounded-lg bg-red-50 dark:bg-red-900/20 p-4 sm:p-5 lg:p-6 border border-red-200">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs sm:text-sm font-medium text-red-800">Outcome (Purchases)</p>
             <span className="text-xl sm:text-2xl">📦</span>
@@ -150,26 +150,26 @@ const AnalysisPage = () => {
       )}
 
       {/* Category-wise Performance */}
-      <div className="rounded-lg border border-gray-200 bg-white overflow-hidden">
-        <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Category-wise Performance</h2>
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden">
+        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Category-wise Performance</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-50 dark:bg-gray-700/50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Qty Sold</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Revenue</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cost</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Profit</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Performance</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Qty Sold</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Revenue</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Cost</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Profit</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Performance</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {categoryAnalysis.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan={6} className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                     No data for selected month
                   </td>
                 </tr>
@@ -177,18 +177,18 @@ const AnalysisPage = () => {
                 categoryAnalysis
                   .filter((cat) => cat.quantitySold > 0 || cat.cost > 0)
                   .map((cat) => (
-                    <tr key={cat.name} className="hover:bg-gray-50">
+                    <tr key={cat.name} className="hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700/50">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{cat.name}</div>
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">{cat.name}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{cat.quantitySold}</div>
+                        <div className="text-sm text-gray-900 dark:text-white">{cat.quantitySold}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-green-600 font-medium">LKR {cat.revenue.toLocaleString()}</div>
+                        <div className="text-sm text-green-600 dark:text-green-400 font-medium">LKR {cat.revenue.toLocaleString()}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-red-600 font-medium">LKR {cat.cost.toLocaleString()}</div>
+                        <div className="text-sm text-red-600 dark:text-red-400 font-medium">LKR {cat.cost.toLocaleString()}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div

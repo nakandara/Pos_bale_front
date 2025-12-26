@@ -87,30 +87,30 @@ const SalesPage = () => {
   return (
     <div className="space-y-4 sm:space-y-6">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Sales Entry</h1>
-        <p className="text-xs sm:text-sm text-gray-600 mt-1">Record daily sales (stock going out)</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Sales Entry</h1>
+        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Record daily sales (stock going out)</p>
       </div>
 
       {/* Sales Form */}
-      <form onSubmit={handleSubmit} className="rounded-lg border border-gray-200 bg-white p-4 sm:p-5 lg:p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-5 lg:p-6 space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">Date</label>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">Date</label>
             <input
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
               style={{ fontSize: '16px' }}
             />
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">Category *</label>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">Category *</label>
             <select
               value={formData.categoryId}
               onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
               disabled={categoriesStatus === 'loading' || categories.length === 0}
@@ -125,15 +125,15 @@ const SalesPage = () => {
               ))}
             </select>
             {categoriesStatus !== 'loading' && categories.length === 0 && (
-              <p className="mt-1 text-xs text-red-600">No categories found. Add a category first.</p>
+              <p className="mt-1 text-xs text-red-600 dark:text-red-400">No categories found. Add a category first.</p>
             )}
             {categoriesStatus === 'failed' && (
-              <p className="mt-1 text-xs text-red-600">Could not load categories. Check API connection.</p>
+              <p className="mt-1 text-xs text-red-600 dark:text-red-400">Could not load categories. Check API connection.</p>
             )}
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">Quantity *</label>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">Quantity *</label>
             <input
               type="number"
               value={formData.quantity}
@@ -141,17 +141,17 @@ const SalesPage = () => {
               placeholder="3"
               min="1"
               max={selectedCategoryStock}
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
             />
             {formData.categoryId && (
-              <p className="mt-1 text-sm text-gray-600">Available: {selectedCategoryStock} items</p>
+              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Available: {selectedCategoryStock} items</p>
             )}
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
               Selling Price per Item (LKR) *
             </label>
             <input
@@ -161,7 +161,7 @@ const SalesPage = () => {
               placeholder="500"
               min="0"
               step="0.01"
-              className="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
             />
@@ -169,7 +169,7 @@ const SalesPage = () => {
         </div>
 
         {formData.quantity && formData.sellingPricePerItem && (
-          <div className="rounded-lg bg-green-50 p-4">
+          <div className="rounded-lg bg-green-50 dark:bg-green-900/20 p-4">
             <p className="text-sm text-green-800">
               <strong>Total Sale Amount:</strong> LKR{' '}
               {(Number(formData.quantity) * Number(formData.sellingPricePerItem)).toLocaleString()}
@@ -187,40 +187,40 @@ const SalesPage = () => {
 
       {/* Sales List */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Sales History</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Sales History</h2>
         <div className="space-y-3">
-          {salesStatus === 'loading' && <p className="text-center text-gray-500 py-8">Loading sales...</p>}
+          {salesStatus === 'loading' && <p className="text-center text-gray-500 dark:text-gray-400 py-8">Loading sales...</p>}
           {salesStatus !== 'loading' && sales.length === 0 ? (
-            <p className="text-center text-gray-500 py-8">No sales recorded yet</p>
+            <p className="text-center text-gray-500 dark:text-gray-400 py-8">No sales recorded yet</p>
           ) : (
             sales.map((sale) => (
-              <div key={sale.id} className="rounded-lg border border-gray-200 bg-white p-4 hover:bg-gray-50">
+              <div key={sale.id} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700/50">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
                         {sale.categoryName}
                       </span>
-                      <span className="text-sm text-gray-500">{new Date(sale.date).toLocaleDateString()}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">{new Date(sale.date).toLocaleDateString()}</span>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
                       <div>
-                        <p className="text-gray-600">Quantity Sold</p>
-                        <p className="font-medium text-gray-900">{sale.quantity}</p>
+                        <p className="text-gray-600 dark:text-gray-400">Quantity Sold</p>
+                        <p className="font-medium text-gray-900 dark:text-white">{sale.quantity}</p>
                       </div>
                       <div>
-                        <p className="text-gray-600">Price/Item</p>
-                        <p className="font-medium text-gray-900">LKR {sale.sellingPricePerItem}</p>
+                        <p className="text-gray-600 dark:text-gray-400">Price/Item</p>
+                        <p className="font-medium text-gray-900 dark:text-white">LKR {sale.sellingPricePerItem}</p>
                       </div>
                       <div>
-                        <p className="text-gray-600">Total Amount</p>
-                        <p className="font-medium text-green-600">LKR {sale.totalAmount.toLocaleString()}</p>
+                        <p className="text-gray-600 dark:text-gray-400">Total Amount</p>
+                        <p className="font-medium text-green-600 dark:text-green-400">LKR {sale.totalAmount.toLocaleString()}</p>
                       </div>
                     </div>
                   </div>
                   <button
                     onClick={() => handleDelete(sale.id)}
-                    className="ml-4 rounded-lg bg-red-50 px-3 py-1 text-sm font-medium text-red-600 hover:bg-red-100"
+                    className="ml-4 rounded-lg bg-red-50 dark:bg-red-900/20 px-3 py-1 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-100"
                   >
                     Delete
                   </button>
@@ -232,7 +232,7 @@ const SalesPage = () => {
       </div>
 
       {/* Summary */}
-      <div className="rounded-lg bg-green-50 p-4">
+      <div className="rounded-lg bg-green-50 dark:bg-green-900/20 p-4">
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-green-800">Total Sales</p>
