@@ -19,10 +19,17 @@ const initialState: CategoriesState = {
   error: null,
 }
 
-const mapCategory = (c: any): Category => ({
-  id: c._id || c.id,
+interface CategoryApi {
+  _id?: string
+  id?: string
+  name: string
+  createdAt?: string
+}
+
+const mapCategory = (c: CategoryApi): Category => ({
+  id: c._id ?? c.id ?? '',
   name: c.name,
-  createdAt: c.createdAt || new Date().toISOString(),
+  createdAt: c.createdAt ?? new Date().toISOString(),
 })
 
 export const fetchCategories = createAsyncThunk('categories/fetchAll', async () => {
