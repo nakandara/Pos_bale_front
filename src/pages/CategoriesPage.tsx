@@ -43,7 +43,7 @@ const CategoriesPage = () => {
           value={newCategoryName}
           onChange={(e) => setNewCategoryName(e.target.value)}
           placeholder="Enter category name..."
-          className="flex-1 rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+          className="flex-1 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
           style={{ fontSize: '16px' }}
         />
         <button
@@ -63,7 +63,7 @@ const CategoriesPage = () => {
           categories.map((category) => (
             <div
               key={category.id}
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700/50"
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700/50"
             >
               <div className="flex-1 min-w-0">
                 <h3 className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">{category.name}</h3>

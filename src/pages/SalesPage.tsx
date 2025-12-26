@@ -92,7 +92,7 @@ const SalesPage = () => {
       </div>
 
       {/* Sales Form */}
-      <form onSubmit={handleSubmit} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-5 lg:p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 p-4 sm:p-5 lg:p-6 space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div>
             <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">Date</label>
@@ -100,7 +100,7 @@ const SalesPage = () => {
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:outline-none"
               style={{ fontSize: '16px' }}
             />
           </div>
@@ -110,7 +110,7 @@ const SalesPage = () => {
             <select
               value={formData.categoryId}
               onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
               disabled={categoriesStatus === 'loading' || categories.length === 0}
@@ -141,7 +141,7 @@ const SalesPage = () => {
               placeholder="3"
               min="1"
               max={selectedCategoryStock}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
             />
@@ -161,7 +161,7 @@ const SalesPage = () => {
               placeholder="500"
               min="0"
               step="0.01"
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-green-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-green-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
             />
@@ -194,7 +194,7 @@ const SalesPage = () => {
             <p className="text-center text-gray-500 dark:text-gray-400 py-8">No sales recorded yet</p>
           ) : (
             sales.map((sale) => (
-              <div key={sale.id} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700/50">
+              <div key={sale.id} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700/50">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">

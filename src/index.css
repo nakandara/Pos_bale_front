@@ -99,3 +99,16 @@ textarea {
   background: #6b7280;
 }
 
+/* Dark Mode Input Consistency */
+.dark input,
+.dark select,
+.dark textarea {
+  color-scheme: dark;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+

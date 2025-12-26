@@ -76,7 +76,7 @@ const PurchasesPage = () => {
       </div>
 
       {/* Purchase Form */}
-      <form onSubmit={handleSubmit} className="rounded-lg border border-gray-200 dark:border-gray-700 dark:border-gray-700 bg-white dark:bg-gray-800 dark:bg-gray-800 p-4 sm:p-5 lg:p-6 space-y-4 transition-colors">
+      <form onSubmit={handleSubmit} className="rounded-lg border border-gray-200 dark:border-gray-700 dark:border-gray-700 bg-white dark:bg-gray-700 dark:bg-gray-700 p-4 sm:p-5 lg:p-6 space-y-4 transition-colors">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div>
             <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 dark:text-gray-300 mb-1.5 sm:mb-2">Date</label>
@@ -84,7 +84,7 @@ const PurchasesPage = () => {
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 dark:border-gray-600 bg-white dark:bg-gray-800 dark:bg-gray-700 text-gray-900 dark:text-white dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white dark:border-gray-600 bg-white dark:bg-gray-700 dark:bg-gray-700 text-gray-900 dark:text-white dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none"
               style={{ fontSize: '16px' }}
             />
           </div>
@@ -94,7 +94,7 @@ const PurchasesPage = () => {
             <select
               value={formData.categoryId}
               onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-blue-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
               disabled={categoriesStatus === 'loading' || categories.length === 0}
@@ -124,7 +124,7 @@ const PurchasesPage = () => {
               onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
               placeholder="150"
               min="1"
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-blue-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
             />
@@ -139,7 +139,7 @@ const PurchasesPage = () => {
               placeholder="40000"
               min="0"
               step="0.01"
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-blue-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
             />
@@ -156,7 +156,7 @@ const PurchasesPage = () => {
               placeholder="500"
               min="0"
               step="0.01"
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-blue-500 focus:outline-none"
               style={{ fontSize: '16px' }}
               required
             />
@@ -169,7 +169,7 @@ const PurchasesPage = () => {
               value={formData.supplier}
               onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
               placeholder="ABC Wholesale"
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 sm:px-4 py-2 sm:py-3 text-base focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 sm:px-4 py-2 sm:py-3 text-base placeholder-gray-400 dark:placeholder-gray-500 focus:border-blue-500 focus:outline-none"
               style={{ fontSize: '16px' }}
             />
           </div>
@@ -203,7 +203,7 @@ const PurchasesPage = () => {
             purchases.map((purchase) => (
               <div
                 key={purchase.id}
-                className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700/50"
+                className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700/50"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
