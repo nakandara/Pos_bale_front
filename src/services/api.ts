@@ -48,6 +48,23 @@ export const api = {
     sellingPricePerItem: number
   }) => request<any>('/sales', 'POST', data),
   deleteSale: (id: string) => request<any>(`/sales/${id}`, 'DELETE'),
+  
+  // Sales Analytics
+  fetchWeeklySales: (startDate?: string, endDate?: string) => {
+    const params = new URLSearchParams()
+    if (startDate) params.append('startDate', startDate)
+    if (endDate) params.append('endDate', endDate)
+    const queryString = params.toString()
+    return request<any>(`/sales/analytics/weekly${queryString ? `?${queryString}` : ''}`, 'GET')
+  },
+  
+  fetchDayOfWeekSales: (startDate?: string, endDate?: string) => {
+    const params = new URLSearchParams()
+    if (startDate) params.append('startDate', startDate)
+    if (endDate) params.append('endDate', endDate)
+    const queryString = params.toString()
+    return request<any>(`/sales/analytics/day-of-week${queryString ? `?${queryString}` : ''}`, 'GET')
+  },
 }
 
 
