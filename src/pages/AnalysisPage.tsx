@@ -300,7 +300,7 @@ const AnalysisPage = () => {
                       borderRadius: '8px',
                       fontSize: '12px'
                     }}
-                    formatter={(value: any, name: string, props: any) => {
+                    formatter={(value: any, _name: string | undefined, props: any) => {
                       const isClosed = props.payload.isClosed
                       const closureReason = props.payload.closureInfo?.reason
                       return [
@@ -369,9 +369,9 @@ const AnalysisPage = () => {
                       borderRadius: '8px',
                       fontSize: '12px'
                     }}
-                    formatter={(value: any, name: string, props: any) => {
+                    formatter={(value: any, name: string | undefined, props: any) => {
                       const isClosed = props.payload.isClosed
-                      return [`${value}${isClosed ? ' (Closed)' : ''}`, name]
+                      return [`${value}${isClosed ? ' (Closed)' : ''}`, name || 'Transactions']
                     }}
                   />
                   <Legend />
