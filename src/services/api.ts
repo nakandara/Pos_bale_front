@@ -65,6 +65,45 @@ export const api = {
     const queryString = params.toString()
     return request<any>(`/sales/analytics/day-of-week${queryString ? `?${queryString}` : ''}`, 'GET')
   },
+  
+  fetchDailySales: (startDate?: string, endDate?: string) => {
+    const params = new URLSearchParams()
+    if (startDate) params.append('startDate', startDate)
+    if (endDate) params.append('endDate', endDate)
+    const queryString = params.toString()
+    return request<any>(`/sales/analytics/daily${queryString ? `?${queryString}` : ''}`, 'GET')
+  },
+
+  // Shop Closures
+  fetchShopClosures: (startDate?: string, endDate?: string) => {
+    const params = new URLSearchParams()
+    if (startDate) params.append('startDate', startDate)
+    if (endDate) params.append('endDate', endDate)
+    const queryString = params.toString()
+    return request<any[]>(`/shop-closures${queryString ? `?${queryString}` : ''}`, 'GET')
+  },
+  createShopClosure: (data: {
+    date: string
+    reason: string
+    description?: string
+    isFullDay?: boolean
+    closedHours?: number
+  }) => request<any>('/shop-closures', 'POST', data),
+  updateShopClosure: (id: string, data: {
+    date?: string
+    reason?: string
+    description?: string
+    isFullDay?: boolean
+    closedHours?: number
+  }) => request<any>(`/shop-closures/${id}`, 'PUT', data),
+  deleteShopClosure: (id: string) => request<any>(`/shop-closures/${id}`, 'DELETE'),
+  fetchShopClosureStats: (startDate?: string, endDate?: string) => {
+    const params = new URLSearchParams()
+    if (startDate) params.append('startDate', startDate)
+    if (endDate) params.append('endDate', endDate)
+    const queryString = params.toString()
+    return request<any>(`/shop-closures/stats${queryString ? `?${queryString}` : ''}`, 'GET')
+  },
 }
 
 

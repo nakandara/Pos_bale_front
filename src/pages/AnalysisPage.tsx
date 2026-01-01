@@ -33,6 +33,12 @@ const AnalysisPage = () => {
   const [loadingDayOfWeek, setLoadingDayOfWeek] = useState(false)
   const [dayOfWeekError, setDayOfWeekError] = useState<string>('')
   const [dayOfWeekPeriod, setDayOfWeekPeriod] = useState<'2weeks' | '4weeks' | '8weeks'>('2weeks')
+  
+  const [dailyData, setDailyData] = useState<any>(null)
+  const [dailySummary, setDailySummary] = useState<any>(null)
+  const [loadingDaily, setLoadingDaily] = useState(false)
+  const [dailyError, setDailyError] = useState<string>('')
+  const [dailyPeriod, setDailyPeriod] = useState<'7days' | '14days' | '30days' | '60days'>('30days')
 
   // Filter data by selected month
   const filterByMonth = <T extends { date: string }>(items: T[]) => {
@@ -145,6 +151,41 @@ const AnalysisPage = () => {
     fetchDayOfWeekData()
   }, [dayOfWeekPeriod])
 
+  // Fetch daily sales data
+  useEffect(() => {
+    const fetchDailyData = async () => {
+      setLoadingDaily(true)
+      setDailyError('')
+      try {
+        const days = dailyPeriod === '7days' ? 7 : dailyPeriod === '14days' ? 14 : dailyPeriod === '30days' ? 30 : 60
+        const endDate = new Date()
+        const startDate = new Date()
+        startDate.setDate(startDate.getDate() - days)
+        
+        console.log('Fetching daily sales from', startDate.toISOString(), 'to', endDate.toISOString())
+        
+        const response = await api.fetchDailySales(
+          startDate.toISOString(),
+          endDate.toISOString()
+        )
+        
+        console.log('Daily sales response:', response)
+        
+        setDailyData(response.data || [])
+        setDailySummary(response.summary || {})
+      } catch (error: any) {
+        console.error('Error fetching daily sales:', error)
+        setDailyError(error?.message || 'Failed to load daily data')
+        setDailyData([])
+        setDailySummary({})
+      } finally {
+        setLoadingDaily(false)
+      }
+    }
+    
+    fetchDailyData()
+  }, [dailyPeriod])
+
   const months = [
     'January',
     'February',
@@ -168,6 +209,219 @@ const AnalysisPage = () => {
           <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Weekly trends, monthly analysis, and performance insights</p>
         </div>
 
+      </div>
+
+      {/* Daily Performance with Closures Section */}
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden">
+        <div className="px-6 py-4 bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">📈 Daily Sales Performance & Shop Closures</h2>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Day-by-day analysis with closure indicators</p>
+            </div>
+            <select
+              value={dailyPeriod}
+              onChange={(e) => setDailyPeriod(e.target.value as any)}
+              className="rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none bg-white dark:bg-gray-700 dark:text-white"
+            >
+              <option value="7days">Last 7 Days</option>
+              <option value="14days">Last 14 Days</option>
+              <option value="30days">Last 30 Days</option>
+              <option value="60days">Last 60 Days</option>
+            </select>
+          </div>
+        </div>
+
+        {loadingDaily ? (
+          <div className="p-12 text-center">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">Loading daily data...</p>
+          </div>
+        ) : dailyError ? (
+          <div className="p-12 text-center">
+            <div className="text-6xl mb-4">⚠️</div>
+            <p className="text-red-600 dark:text-red-400 font-semibold">Error Loading Data</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{dailyError}</p>
+          </div>
+        ) : dailyData && dailyData.length > 0 ? (
+          <>
+            {/* Summary Cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 bg-gray-50 dark:bg-gray-700/30">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total Days</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{dailySummary?.totalDays || 0}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                  {dailySummary?.openDays || 0} open, {dailySummary?.closedDays || 0} closed
+                </p>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total Revenue</p>
+                <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+                  {Number(dailySummary?.totalRevenue || 0).toLocaleString()}
+                </p>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Avg/Day (All)</p>
+                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  {Number(dailySummary?.averageRevenuePerDay || 0).toLocaleString()}
+                </p>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Avg/Open Day</p>
+                <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+                  {Number(dailySummary?.averageRevenuePerOpenDay || 0).toLocaleString()}
+                </p>
+              </div>
+            </div>
+
+            {/* Line Chart with Closure Markers */}
+            <div className="p-6">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Daily Revenue Trend with Closures</h3>
+              <ResponsiveContainer width="100%" height={350}>
+                <LineChart data={dailyData} margin={{ top: 5, right: 30, left: 20, bottom: 60 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis 
+                    dataKey="formattedDate" 
+                    tick={{ fontSize: 11 }}
+                    stroke="#6b7280"
+                    angle={-45}
+                    textAnchor="end"
+                    height={80}
+                  />
+                  <YAxis 
+                    tick={{ fontSize: 12 }}
+                    stroke="#6b7280"
+                    tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                  />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '8px',
+                      fontSize: '12px'
+                    }}
+                    formatter={(value: any, name: string, props: any) => {
+                      const isClosed = props.payload.isClosed
+                      const closureReason = props.payload.closureInfo?.reason
+                      return [
+                        `LKR ${Number(value).toLocaleString()}${isClosed ? ` (Shop Closed - ${closureReason})` : ''}`,
+                        'Revenue'
+                      ]
+                    }}
+                  />
+                  <Legend />
+                  <Line 
+                    type="monotone" 
+                    dataKey="totalRevenue" 
+                    stroke="#10b981" 
+                    strokeWidth={2}
+                    name="Revenue"
+                    dot={(props: any) => {
+                      const { cx, cy, payload } = props
+                      if (payload.isClosed) {
+                        return (
+                          <g>
+                            <circle cx={cx} cy={cy} r={6} fill="#ef4444" stroke="#fff" strokeWidth={2} />
+                            <text x={cx} y={cy + 3} textAnchor="middle" fontSize={10}>🔒</text>
+                          </g>
+                        )
+                      }
+                      return <circle cx={cx} cy={cy} r={4} fill="#10b981" stroke="#fff" strokeWidth={2} />
+                    }}
+                    activeDot={{ r: 7 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+              <div className="mt-4 flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  <span>Open Day</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                  <span>Shop Closed</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bar Chart - Transactions */}
+            <div className="p-6 border-t border-gray-200 dark:border-gray-700">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Daily Transactions</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={dailyData} margin={{ top: 5, right: 30, left: 20, bottom: 60 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis 
+                    dataKey="formattedDate" 
+                    tick={{ fontSize: 11 }}
+                    stroke="#6b7280"
+                    angle={-45}
+                    textAnchor="end"
+                    height={80}
+                  />
+                  <YAxis 
+                    tick={{ fontSize: 12 }}
+                    stroke="#6b7280"
+                  />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '8px',
+                      fontSize: '12px'
+                    }}
+                    formatter={(value: any, name: string, props: any) => {
+                      const isClosed = props.payload.isClosed
+                      return [`${value}${isClosed ? ' (Closed)' : ''}`, name]
+                    }}
+                  />
+                  <Legend />
+                  <Bar 
+                    dataKey="transactionCount" 
+                    fill="#3b82f6" 
+                    name="Transactions"
+                    radius={[4, 4, 0, 0]}
+                    shape={(props: any) => {
+                      const { fill, x, y, width, height, payload } = props
+                      const barFill = payload.isClosed ? '#ef4444' : fill
+                      return <rect x={x} y={y} width={width} height={height} fill={barFill} rx={4} />
+                    }}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Insights */}
+            {dailySummary && (
+              <div className="p-6 bg-green-50 dark:bg-green-900/10 border-t border-gray-200 dark:border-gray-700">
+                <h3 className="text-sm font-semibold text-green-800 dark:text-green-300 mb-3">💡 Daily Performance Insights</h3>
+                <ul className="space-y-2 text-sm text-green-900 dark:text-green-200">
+                  {dailySummary.closedDays > 0 && (
+                    <li>🔒 Shop was closed for <strong>{dailySummary.closedDays}</strong> day{dailySummary.closedDays > 1 ? 's' : ''} in this period</li>
+                  )}
+                  {dailySummary.bestDay && (
+                    <li>🏆 Best performing day: <strong>{dailySummary.bestDay.date}</strong> with LKR {Number(dailySummary.bestDay.revenue).toLocaleString()}</li>
+                  )}
+                  {dailySummary.worstDay && dailySummary.worstDay.revenue > 0 && (
+                    <li>📉 Lowest performing day: <strong>{dailySummary.worstDay.date}</strong> with LKR {Number(dailySummary.worstDay.revenue).toLocaleString()}</li>
+                  )}
+                  {dailySummary.averageRevenuePerOpenDay && (
+                    <li>📊 Average revenue per open day: <strong>LKR {Number(dailySummary.averageRevenuePerOpenDay).toLocaleString()}</strong></li>
+                  )}
+                  {dailySummary.closureReasons && Object.keys(dailySummary.closureReasons).length > 0 && (
+                    <li>📝 Closure reasons: {Object.entries(dailySummary.closureReasons).map(([reason, count]: [string, any]) => 
+                      `${reason} (${count})`
+                    ).join(', ')}</li>
+                  )}
+                </ul>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="p-12 text-center">
+            <div className="text-6xl mb-4">📈</div>
+            <p className="text-gray-600 dark:text-gray-400">No daily sales data available</p>
+          </div>
+        )}
       </div>
 
       {/* Weekly Sales Performance Section */}
@@ -206,7 +460,7 @@ const AnalysisPage = () => {
         ) : weeklyData && weeklyData.length > 0 ? (
           <>
             {/* Summary Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-6 bg-gray-50 dark:bg-gray-700/30">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-6 bg-gray-50 dark:bg-gray-700/30">
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
                 <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total Weeks</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{weeklySummary?.totalWeeks || 0}</p>
@@ -223,6 +477,15 @@ const AnalysisPage = () => {
                   LKR {Number(weeklySummary?.averageWeeklyRevenue || 0).toLocaleString()}
                 </p>
               </div>
+              {weeklySummary?.totalClosedDays > 0 && (
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-red-200 dark:border-red-800">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Shop Closed Days</p>
+                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{weeklySummary.totalClosedDays}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                    Avg/Open: LKR {Number(weeklySummary.averageRevenuePerOpenDay || 0).toLocaleString()}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Line Chart */}
@@ -309,14 +572,18 @@ const AnalysisPage = () => {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Revenue</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Transactions</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Items Sold</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Avg/Transaction</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Closed Days</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Avg/Open Day</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {weeklyData.map((week: any, index: number) => (
-                    <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 dark:bg-gray-800">
+                    <tr key={index} className={`hover:bg-gray-50 dark:hover:bg-gray-700/50 dark:bg-gray-800 ${week.hasClosure ? 'bg-red-50/30 dark:bg-red-900/10' : ''}`}>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">{week.weekLabel}</div>
+                        <div className="flex items-center gap-2">
+                          {week.hasClosure && <span className="text-red-500">🔒</span>}
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">{week.weekLabel}</div>
+                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-semibold text-green-600 dark:text-green-400">
@@ -330,8 +597,13 @@ const AnalysisPage = () => {
                         <div className="text-sm text-gray-900 dark:text-white">{week.totalQuantity}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-red-600 dark:text-red-400">
+                          {week.closedDays > 0 ? `${week.closedDays} day${week.closedDays > 1 ? 's' : ''}` : '-'}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-blue-600 dark:text-blue-400">
-                          LKR {Number(week.averagePerTransaction).toLocaleString()}
+                          LKR {Number(week.averageRevenuePerOpenDay || 0).toLocaleString()}
                         </div>
                       </td>
                     </tr>
@@ -484,7 +756,8 @@ const AnalysisPage = () => {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Revenue</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Transactions</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Items Sold</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Avg/Transaction</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Closed</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Avg/Open Day</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Performance</th>
                   </tr>
                 </thead>
@@ -494,11 +767,12 @@ const AnalysisPage = () => {
                     const performancePercent = maxRevenue > 0 ? (day.totalRevenue / maxRevenue) * 100 : 0
                     
                     return (
-                      <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 dark:bg-gray-800">
+                      <tr key={index} className={`hover:bg-gray-50 dark:hover:bg-gray-700/50 dark:bg-gray-800 ${day.hasClosure ? 'bg-red-50/30 dark:bg-red-900/10' : ''}`}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center gap-2">
                             <span className="text-lg">
-                              {day.dayName === dayOfWeekSummary?.bestDay?.name ? '🏆' : 
+                              {day.hasClosure ? '🔒' :
+                               day.dayName === dayOfWeekSummary?.bestDay?.name ? '🏆' : 
                                day.dayName === dayOfWeekSummary?.worstDay?.name && day.totalRevenue > 0 ? '📉' : '📅'}
                             </span>
                             <div className="text-sm font-medium text-gray-900 dark:text-white">{day.dayName}</div>
@@ -516,8 +790,13 @@ const AnalysisPage = () => {
                           <div className="text-sm text-gray-900 dark:text-white">{day.totalQuantity}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-red-600 dark:text-red-400">
+                            {day.closedCount > 0 ? `${day.closedCount}x` : '-'}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-blue-600 dark:text-blue-400">
-                            LKR {Number(day.averagePerTransaction).toLocaleString()}
+                            LKR {Number(day.averageRevenuePerOpenDay || 0).toLocaleString()}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -547,6 +826,12 @@ const AnalysisPage = () => {
                 )}
                 {dayOfWeekSummary?.worstDay && dayOfWeekSummary.worstDay.revenue > 0 && (
                   <li>📉 <strong>{dayOfWeekSummary.worstDay.name}</strong> is your slowest day - consider special promotions</li>
+                )}
+                {dayOfWeekSummary?.totalClosedDays > 0 && (
+                  <li>🔒 Shop was closed for <strong>{dayOfWeekSummary.totalClosedDays}</strong> day{dayOfWeekSummary.totalClosedDays > 1 ? 's' : ''} during this period</li>
+                )}
+                {dayOfWeekSummary?.bestDayByAverage && (
+                  <li>📈 <strong>{dayOfWeekSummary.bestDayByAverage.name}</strong> has the highest average revenue per open day: LKR {Number(dayOfWeekSummary.bestDayByAverage.averageRevenue).toLocaleString()}</li>
                 )}
                 {dayOfWeekData && (
                   <li>📊 Total transactions across all days: {dayOfWeekData.reduce((sum: number, d: any) => sum + d.transactionCount, 0)}</li>

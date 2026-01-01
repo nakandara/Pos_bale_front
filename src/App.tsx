@@ -5,13 +5,14 @@ import PurchasesPage from './pages/PurchasesPage'
 import SalesPage from './pages/SalesPage'
 import InventoryPage from './pages/InventoryPage'
 import AnalysisPage from './pages/AnalysisPage'
+import ShopClosuresPage from './pages/ShopClosuresPage'
 import { useAppDispatch } from './store/hooks'
 import { fetchCategories } from './store/categoriesSlice'
 import { fetchPurchases } from './store/purchasesSlice'
 import { fetchSales } from './store/salesSlice'
 import { useTheme } from './context/ThemeContext'
 
-type Page = 'dashboard' | 'analysis' | 'purchases' | 'sales' | 'inventory' | 'categories'
+type Page = 'dashboard' | 'analysis' | 'purchases' | 'sales' | 'inventory' | 'categories' | 'closures'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -41,6 +42,8 @@ function App() {
         return <InventoryPage />
       case 'categories':
         return <CategoriesPage />
+      case 'closures':
+        return <ShopClosuresPage />
       default:
         return <DashboardPage onNavigate={(page) => setCurrentPage(page as Page)} />
     }
@@ -52,6 +55,7 @@ function App() {
     { id: 'sales', label: 'Sales', icon: '💰', description: 'Stock Out' },
     { id: 'inventory', label: 'Inventory', icon: '📋', description: 'Current Stock' },
     { id: 'analysis', label: 'Analysis', icon: '📊', description: 'Reports' },
+    { id: 'closures', label: 'Shop Closures', icon: '🔒', description: 'Leaves & Holidays' },
     { id: 'categories', label: 'Categories', icon: '📁', description: 'Setup' },
   ]
 
