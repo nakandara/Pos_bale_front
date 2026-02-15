@@ -6,13 +6,28 @@ import SalesPage from './pages/SalesPage'
 import InventoryPage from './pages/InventoryPage'
 import AnalysisPage from './pages/AnalysisPage'
 import ShopClosuresPage from './pages/ShopClosuresPage'
+import NotificationBell from './components/NotificationBell'
 import { useAppDispatch } from './store/hooks'
 import { fetchCategories } from './store/categoriesSlice'
 import { fetchPurchases } from './store/purchasesSlice'
 import { fetchSales } from './store/salesSlice'
 import { useTheme } from './context/ThemeContext'
+import type { Notification } from './components/NotificationBell'
 
 type Page = 'dashboard' | 'analysis' | 'purchases' | 'sales' | 'inventory' | 'categories' | 'closures'
+
+// Sample notifications - you can fetch from backend later
+const sampleNotifications: Notification[] = [
+  {
+    id: '1',
+    title: 'Hello Chalani ඔයා ගාව තියෙන Print Label code එකේන් Category දැන්ම හදන්න 🌼',
+    message: 'ඔයාට අලුතෙන්  sales add කරන්න විදිහක් නෑ නේද ඔයා ලග තියෙන print code එක categories menu එකේ Add category වලින් අලුත් category create කරලා දැන්ම එදිනෙදා sales add කරන්න',
+    time: '2 hours ago',
+    read: false,
+    type: 'warning'
+  },
+
+]
 
 function App() {
   const dispatch = useAppDispatch()
@@ -177,6 +192,9 @@ function App() {
                     <span className="text-xl">🌙</span>
                   )}
                 </button>
+
+                {/* Notification Bell */}
+                <NotificationBell initialNotifications={sampleNotifications} />
                 
                 <div className="text-right hidden sm:block">
                   <p className="text-xs lg:text-sm font-medium text-gray-900 dark:text-white">

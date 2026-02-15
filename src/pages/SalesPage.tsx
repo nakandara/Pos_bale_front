@@ -195,32 +195,32 @@ const SalesPage = () => {
           ) : (
             sales.map((sale) => (
               <div key={sale.id} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-700/50">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3">
+                      <span className="rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs sm:text-sm font-medium text-green-700 dark:text-green-400">
                         {sale.categoryName}
                       </span>
-                      <span className="text-sm text-gray-500 dark:text-gray-400">{new Date(sale.date).toLocaleDateString()}</span>
+                      <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{new Date(sale.date).toLocaleDateString()}</span>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
                       <div>
-                        <p className="text-gray-600 dark:text-gray-400">Quantity Sold</p>
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Quantity Sold</p>
                         <p className="font-medium text-gray-900 dark:text-white">{sale.quantity}</p>
                       </div>
                       <div>
-                        <p className="text-gray-600 dark:text-gray-400">Price/Item</p>
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Price/Item</p>
                         <p className="font-medium text-gray-900 dark:text-white">LKR {sale.sellingPricePerItem}</p>
                       </div>
-                      <div>
-                        <p className="text-gray-600 dark:text-gray-400">Total Amount</p>
+                      <div className="col-span-2 md:col-span-1">
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Amount</p>
                         <p className="font-medium text-green-600 dark:text-green-400">LKR {sale.totalAmount.toLocaleString()}</p>
                       </div>
                     </div>
                   </div>
                   <button
                     onClick={() => handleDelete(sale.id)}
-                    className="ml-4 rounded-lg bg-red-50 dark:bg-red-900/20 px-3 py-1 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-100"
+                    className="w-full sm:w-auto sm:ml-4 rounded-lg bg-red-50 dark:bg-red-900/20 px-4 py-2.5 sm:px-3 sm:py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 active:scale-95 transition-all flex-shrink-0"
                   >
                     Delete
                   </button>
