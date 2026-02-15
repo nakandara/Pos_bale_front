@@ -209,8 +209,12 @@ function App() {
                     {new Date().toLocaleDateString('en-US', { weekday: 'long' })}
                   </p>
                 </div>
-                <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-1.5 lg:p-2 rounded-full">
-                  <span className="text-base lg:text-xl">👤</span>
+                <div className="relative w-9 h-9 lg:w-10 lg:h-10 rounded-full overflow-hidden ring-2 ring-blue-500 dark:ring-blue-400">
+                  <img 
+                    src="/user-profile.png" 
+                    alt="User Profile" 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
             </div>
