@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { updateAppBadge } from '../utils/badge'
 
 export type Notification = {
   id: string
@@ -19,6 +20,11 @@ const NotificationBell = ({ initialNotifications = [] }: NotificationBellProps) 
   const notificationRef = useRef<HTMLDivElement>(null)
 
   const unreadCount = notifications.filter(n => !n.read).length
+
+  // Update app badge when unread count changes
+  useEffect(() => {
+    updateAppBadge(unreadCount)
+  }, [unreadCount])
 
   // Close notifications dropdown when clicking outside
   useEffect(() => {

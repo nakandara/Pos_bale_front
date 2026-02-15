@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate PWA Icons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1e40af; }
+        button {
+            background: #1e40af;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover { background: #1e3a8a; }
+        .preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .icon-preview {
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .success {
+            background: #10b981;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏪 Generate PWA Icons for Clothes Shop POS</h1>
+        <p>Click the button below to generate and download all required PWA icons.</p>
+        
+        <button onclick="generateAllIcons()">Generate All Icons</button>
+        
+        <div id="success" class="success"></div>
+        
+        <div class="preview" id="preview"></div>
+    </div>
+
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+
+        function createIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#1e40af');
+            gradient.addColorStop(1, '#1e3a8a');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Round corners
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            const radius = size * 0.2;
+            ctx.moveTo(radius, 0);
+            ctx.lineTo(size - radius, 0);
+            ctx.quadraticCurveTo(size, 0, size, radius);
+            ctx.lineTo(size, size - radius);
+            ctx.quadraticCurveTo(size, size, size - radius, size);
+            ctx.lineTo(radius, size);
+            ctx.quadraticCurveTo(0, size, 0, size - radius);
+            ctx.lineTo(0, radius);
+            ctx.quadraticCurveTo(0, 0, radius, 0);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.globalCompositeOperation = 'source-over';
+
+            // Draw shop icon emoji
+            const fontSize = size * 0.6;
+            ctx.font = `${fontSize}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🏪', size / 2, size / 2);
+
+            return canvas;
+        }
+
+        function downloadIcon(canvas, size) {
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `icon-${size}x${size}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        function generateAllIcons() {
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+            
+            let downloadCount = 0;
+
+            sizes.forEach((size, index) => {
+                setTimeout(() => {
+                    const canvas = createIcon(size);
+                    
+                    // Add to preview
+                    const div = document.createElement('div');
+                    div.className = 'icon-preview';
+                    div.innerHTML = `<div>${size}x${size}</div>`;
+                    const smallCanvas = canvas.cloneNode();
+                    const smallCtx = smallCanvas.getContext('2d');
+                    smallCanvas.width = 80;
+                    smallCanvas.height = 80;
+                    smallCtx.drawImage(canvas, 0, 0, 80, 80);
+                    div.appendChild(smallCanvas);
+                    preview.appendChild(div);
+                    
+                    // Download
+                    downloadIcon(canvas, size);
+                    
+                    downloadCount++;
+                    if (downloadCount === sizes.length) {
+                        const success = document.getElementById('success');
+                        success.style.display = 'block';
+                        success.textContent = `✅ Successfully generated ${sizes.length} icons! Check your downloads folder.`;
+                        
+                        setTimeout(() => {
+                            success.style.display = 'none';
+                        }, 5000);
+                    }
+                }, index * 500);
+            });
+        }
+    </script>
+</body>
+</html>

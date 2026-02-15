@@ -7,6 +7,7 @@ import InventoryPage from './pages/InventoryPage'
 import AnalysisPage from './pages/AnalysisPage'
 import ShopClosuresPage from './pages/ShopClosuresPage'
 import NotificationBell from './components/NotificationBell'
+import InstallPrompt from './components/InstallPrompt'
 import { useAppDispatch } from './store/hooks'
 import { fetchCategories } from './store/categoriesSlice'
 import { fetchPurchases } from './store/purchasesSlice'
@@ -229,6 +230,9 @@ function App() {
           </div>
         </footer>
       </div>
+
+      {/* PWA Install Prompt */}
+      <InstallPrompt />
     </div>
   )
 }
